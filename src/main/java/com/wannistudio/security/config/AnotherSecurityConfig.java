@@ -10,10 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@Configuration
-//@EnableWebSecurity // boot 는 알아서 해준다.
+//@Configuration
+////@EnableWebSecurity // boot 는 알아서 해준다.
 @RequiredArgsConstructor
-@Order(Ordered.LOWEST_PRECEDENCE - 15)
+//@Order(Ordered.LOWEST_PRECEDENCE - 15)
 public class AnotherSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AccountService accountService;
 
