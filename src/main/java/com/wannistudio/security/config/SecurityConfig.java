@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 
@@ -54,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/", "/info", "/account/**").permitAll() // url과 같은 동적 리소스는 인증여부에 따라 처리하는 방향이 다르기 때문에 http 단위에서 처리해야 한다.
+                .mvcMatchers("/", "/info", "/account/**", "/signup").permitAll() // url과 같은 동적 리소스는 인증여부에 따라 처리하는 방향이 다르기 때문에 http 단위에서 처리해야 한다.
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .anyRequest() // 기타등등
                 .authenticated()
@@ -65,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
             http.httpBasic()
         ;
+//            http.csrf().disable(); // form 기반 웹 페이지는 disable을 해서는 안된다.
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
 
         // and() 로 연결하지 않고 따로 선언해도 무방하다.
     }
@@ -80,4 +83,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // filter chain 이후에 http 요청을 하기 때문에, 성능 향상을 위해서 이 단계에서 잡아줘야 한다.
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // boot에서 제공하는 ignoring 속성
     }
+
+
 }
