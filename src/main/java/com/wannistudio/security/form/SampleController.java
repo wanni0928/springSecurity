@@ -2,12 +2,16 @@ package com.wannistudio.security.form;
 
 import com.wannistudio.security.account.AccountContext;
 import com.wannistudio.security.account.AccountRepository;
+import com.wannistudio.security.common.SecurityLogger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.util.concurrent.Callable;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,5 +49,18 @@ public class SampleController {
     public String admin(Model model, Principal principal) {
         model.addAttribute("message", "admin " + principal.getName());
         return "admin";
+    }
+
+    @GetMapping("/async-handler")
+    @ResponseBody
+    public Callable<String> asyncHandler() {
+        SecurityLogger.log("MVC");
+        return new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                SecurityLogger.log("Callable");
+                return "Async Handler";
+            }
+        };
     }
 }
