@@ -55,12 +55,10 @@ public class SampleController {
     @ResponseBody
     public Callable<String> asyncHandler() {
         SecurityLogger.log("MVC");
-        return new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                SecurityLogger.log("Callable");
-                return "Async Handler";
-            }
+
+        return () -> {
+            SecurityLogger.log("Callable");
+            return "Async Handler";
         };
     }
 

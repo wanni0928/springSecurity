@@ -67,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.httpBasic()
         ;
 //            http.csrf().disable(); // form 기반 웹 페이지는 disable을 해서는 안된다.
+
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
 
         // and() 로 연결하지 않고 따로 선언해도 무방하다.
